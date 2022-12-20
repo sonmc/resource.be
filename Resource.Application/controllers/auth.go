@@ -1,4 +1,4 @@
-package authTransport
+package authController
 
 import (
 	database "be/database"
