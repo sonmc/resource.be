@@ -1,0 +1,42 @@
+package authController
+
+import (
+	"net/http"
+
+	authDto "resource_be/application/dto"
+	authRepository "resource_be/application/repositories"
+	authService "resource_be/application/services"
+	mysqlDb "resource_be/infrastructure"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
+)
+
+
+func HandleLogin( ) gin.HandlerFunc {
+
+	 var dbConn *gorm.DB = mysqlDb.SetupDatabaseConnection()
+	return func(c *gin.Context) {
+		var auth authDto.Auth
+
+		if err := c.ShouldBind(&auth); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+  
+		if err := auth.Validate(); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		storage := authRepository.NewMySQLStorage(dbConn);
+		biz := authService.LoginBiz(storage);
+
+		if err := biz.OnLogin(c.Request.Context(), &auth); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"data": "auth.Id"})
+	}
+}

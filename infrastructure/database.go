@@ -1,4 +1,4 @@
-package mysqlDb
+package databases
 
 import (
 	"fmt"

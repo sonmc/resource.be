@@ -1,4 +1,4 @@
-module be
+module resource_be
 
 go 1.19
 

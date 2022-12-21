@@ -1,11 +1,10 @@
-package authStorage
+package repositories
 
 import (
 	"context"
 
 	authDto "resource_be/application/dto"
-
-	"resource_be/domain/entities"
+	entities "resource_be/domain/user_aggregate"
 
 	"gorm.io/gorm"
 )
@@ -13,7 +12,7 @@ import (
 func (s *mysqlStorage) Login( ctx context.Context,  auth *authDto.Auth)  ( error) {
  
 	if err := s.db.Table(entities.User{}.TableName()).
-		Where("username=? and password=?", auth.Username, auth.Password).
+		Where("name=? and password=?", auth.Username, auth.Password).
 		First(&auth).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {  
 			return nil 

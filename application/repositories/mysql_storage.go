@@ -1,4 +1,4 @@
-package authStorage
+package repositories
 
 import "gorm.io/gorm"
 
