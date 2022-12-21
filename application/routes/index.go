@@ -1,19 +1,30 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
+	controller "be/application/controllers"
+	repository "be/application/repositories"
+	service "be/application/services"
+	"log"
+	"net/http"
+	"os"
 )
-
-var router = gin.Default()
-
+ 
+type Router interface {
+	GET(uri string, f func(w http.ResponseWriter, r *http.Request))
+	POST(uri string, f func(w http.ResponseWriter, r *http.Request))
+	SERVE(port string)
+}
+var ( 
+	logger 			  = log.New(os.Stdout, "user-service-api : ", log.LstdFlags) 
+	userRepository    = repository.NewUserRepository(logger)
+	userService       = service.NewUserService(userRepository)
+ 	userController    = controller.NewUserController(logger, userService)
+	httpRouter        = NewMuxRouter(logger)
+)
 // Run will start the server
 func Run() {
-	getRoutes()
-	router.Run(":5000")
-}
- 
-func getRoutes() {
-	v1 := router.Group("/v1")
-	authRoutes(v1) 
-	userRoutes(v1)
+	const PORT string = "8080"
+	authRoutes() 
+	userRoutes() 
+	httpRouter.SERVE(PORT)
 }

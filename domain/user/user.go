@@ -5,7 +5,7 @@ import "time"
 func (User) TableName() string { return "users" }
 type User struct { 
 	Id int `json:"id,primary_key"` 
-	Name  string `gorm:"size:255"` 
+	UserName  string `gorm:"size:255"` 
 	Email  string `gorm:"size:255"` 
 	Password  string `gorm:"size:255"` 
 	PhoneNumber  string `gorm:"size:255"` 

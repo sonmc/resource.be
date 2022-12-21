@@ -1,12 +1,19 @@
 package routes
 
 import (
-	authController "resource_be/application/controllers"
-
-	"github.com/gin-gonic/gin"
+	controller "be/application/controllers"
+	service "be/application/services"
+	"net/http"
 )
 
-func authRoutes(rg *gin.RouterGroup) {
-	auth := rg.Group("/auth") 
-	auth.POST("/login", authController.HandleLogin()) 
+var (  
+	authService       = service.NewAuthService(userRepository)
+ 	authController    = controller.NewAuthController(logger, authService) 
+)
+
+func authRoutes() {
+	httpRouter.GET("/auth", func(response http.ResponseWriter, request *http.Request) {
+		logger.Println(response, "Up and running...")
+	}) 
+	httpRouter.POST("/login", authController.Login)
 }

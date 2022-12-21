@@ -11,12 +11,12 @@ var (
 )
  
 type Auth struct {       
-	Username    string      
+	Email    string      
 	Password    string      
 }
   
 func (auth Auth) Validate() error {
-	if auth.Username == "" {
+	if auth.Email == "" {
 		return ErrUserNameCannotBeBlank
 	}
 	if auth.Password == "" {

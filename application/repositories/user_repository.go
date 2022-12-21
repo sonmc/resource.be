@@ -1,23 +1,32 @@
 package repositories
 
 import (
-	"context"
-
-	authDto "resource_be/application/dto"
-	entities "resource_be/domain/user_aggregate"
-
-	"gorm.io/gorm"
-)
+	model "be/domain/user"
+	database "be/infrastructure"
+	"log"
+) 
  
-func (s *mysqlStorage) Login( ctx context.Context,  auth *authDto.Auth)  ( error) {
- 
-	if err := s.db.Table(entities.User{}.TableName()).
-		Where("name=? and password=?", auth.Username, auth.Password).
-		First(&auth).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {  
-			return nil 
-		}
-		return nil 
-	} 
-	return nil
+
+type UserRepository interface {
+	//Save(product *model.Product) (*model.Product, error)
+	FindAll() ([]model.User, error)
+}
+
+type repo struct {
+	logger *log.Logger
+}
+
+func NewUserRepository(logger *log.Logger) UserRepository {
+	return &repo{logger: logger}
+}
+
+//func (*repo) Save(product *model.Product) (*model.Product, error)  {
+//	return product, nil
+//}
+
+func (repo *repo) FindAll() ([]model.User, error)  { 
+	repo.logger.Println("Fetching all users from database") 
+	var products []model.User 
+	database.DB.Find(&products) 
+	return products, nil
 }

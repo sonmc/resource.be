@@ -1,7 +1,7 @@
 package main
 
 import (
-	"resource_be/application/routes"
+	"be/application/routes"
 
 	"github.com/gin-gonic/gin"
 )

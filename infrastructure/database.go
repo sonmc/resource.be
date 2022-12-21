@@ -1,4 +1,4 @@
-package databases
+package database
 
 import (
 	"fmt"
@@ -8,7 +8,9 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
-
+var (
+	DB *gorm.DB
+)
 func SetupDatabaseConnection() *gorm.DB {
     errEnv := godotenv.Load("local.env")
     if errEnv != nil {
@@ -25,6 +27,7 @@ func SetupDatabaseConnection() *gorm.DB {
     if err != nil {
         panic("Failed to create a connection to database")
     } 
+    DB = db;
     return db
 }
 

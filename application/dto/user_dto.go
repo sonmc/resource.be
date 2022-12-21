@@ -8,3 +8,4 @@ type UserDto struct {
 	Password string `json:"password"`
 	Username string `json:"username"`
 }
+

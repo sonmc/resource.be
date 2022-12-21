@@ -1,25 +1,24 @@
-package authService
+package service
 
 import (
-	"context"
-	authDto "resource_be/application/dto"
+	repository "be/application/repositories"
+
+	model "be/domain/user"
 )
 
-type LoginStorage interface {
-	Login(ctx context.Context, data *authDto.Auth)  error
+type AuthService interface {
+	Login() (model.User, error)
 }
 
-type loginBiz struct {
-	store LoginStorage
+type authService struct{
+	repository repository.UserRepository
 }
 
-func LoginBiz(store LoginStorage) *loginBiz {
-	return &loginBiz{store: store}
+
+func NewAuthService(repository repository.UserRepository) AuthService {
+	return &authService{repository: repository}
 }
 
-func (biz *loginBiz) OnLogin(ctx context.Context, data *authDto.Auth) error {
-	if err := biz.store.Login(ctx, data); err != nil {
-		return err
-	} 
-	return nil
+func (service *authService) Login() (model.User, error) {
+	return  model.User{}, nil;
 }

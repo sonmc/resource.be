@@ -1,15 +1,13 @@
 package routes
 
 import (
-	authController "resource_be/application/controllers"
-
-	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
-func userRoutes(rg *gin.RouterGroup) { 
-
-	users := rg.Group("/users")
-	users.GET("/", authController.HandleLogin( ))
-	users.POST("", authController.HandleLogin( ))
- 
+func userRoutes() { 
+	httpRouter.GET("/users", func(response http.ResponseWriter, request *http.Request) {
+		logger.Println(response, "Up and running...")
+	}) 
+	httpRouter.GET("", userController.GetAll)
+	
 }
