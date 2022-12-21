@@ -1,4 +1,4 @@
-package authDto
+package dto
 
 import (
 	"errors"
