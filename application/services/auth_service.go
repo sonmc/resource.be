@@ -1,13 +1,14 @@
 package service
 
 import (
+	"be/application/dto"
 	repository "be/application/repositories"
 
 	model "be/domain/user"
 )
 
 type AuthService interface {
-	Login() (model.User, error)
+	Login(authDto dto.Auth) (model.User, error)
 }
 
 type authService struct{
@@ -19,6 +20,6 @@ func NewAuthService(repository repository.UserRepository) AuthService {
 	return &authService{repository: repository}
 }
 
-func (service *authService) Login() (model.User, error) {
+func (service *authService) Login(auth dto.Auth) (model.User, error) {
 	return  model.User{}, nil;
 }

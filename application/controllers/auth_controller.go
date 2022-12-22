@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"be/application/dto"
 	service "be/application/services"
 ) 
 
@@ -23,14 +24,15 @@ func NewAuthController(logger *log.Logger, authService service.AuthService) Auth
 
 func (auth *authController) Login(response http.ResponseWriter, request *http.Request) {
 
-	auth.logger.Println("GetProducts controller method called ")
-
+	auth.logger.Println("Login controller method called ") 
 	response.Header().Set("Content-Type", "application/json")
-	products, err := auth.authService.Login()
+	var authDto dto.Auth
+	json.NewDecoder(request.Body).Decode(&authDto)
+	user, err := auth.authService.Login(authDto)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		response.Write([]byte(`{"error":"Internal server error"}`))
 	}
 	response.WriteHeader(http.StatusOK)
-	json.NewEncoder(response).Encode(products)
+	json.NewEncoder(response).Encode(user)
 }

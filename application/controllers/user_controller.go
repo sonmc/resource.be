@@ -23,14 +23,14 @@ func NewUserController(logger *log.Logger, userService service.UserService) User
 
 func (user *userController) GetAll(response http.ResponseWriter, request *http.Request) {
 
-	user.logger.Println("GetProducts controller method called ")
+	user.logger.Println("GetUsers controller method called ")
 
 	response.Header().Set("Content-Type", "application/json")
-	products, err := user.userService.FindAll()
+	users, err := user.userService.FindAll()
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		response.Write([]byte(`{"error":"Internal server error"}`))
 	}
 	response.WriteHeader(http.StatusOK)
-	json.NewEncoder(response).Encode(products)
+	json.NewEncoder(response).Encode(users)
 }
